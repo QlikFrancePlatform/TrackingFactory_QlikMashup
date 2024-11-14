@@ -4,6 +4,11 @@ Nov 11, 2024
 
 - Add openAI request for analytics chart Qlik Sense generator
 
+Nov 15, 2024
+
+- Mutual OpenAI & Mistral
+- Add webpage with Qlik Answers & OpenAi compare
+
 Oct 20, 2024
 
 - Add README & LICENSE
@@ -15,5 +20,4 @@ Oct 20, 2024
 
 TODO
 
-- Mutual OpenAI & Mistral
 - Get information with LLM, suggest & Good Prompt
