@@ -23,7 +23,7 @@ FACTORY_AUTOMATION_ID="<factory_automation_id>",
 FACTORY_AUTOMATION_TOKEN="<factory_automation_token>"
 AI_KEY="<ai_key>"
 AI_URI="<ai_url>"
-MONGODB_URI="<mongodb_uri>"
+AI_MODEL="<ai_model>"
 ```
 
 Change in index.html file
