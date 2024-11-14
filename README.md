@@ -26,6 +26,7 @@ AI_URI="<ai_url>"
 AI_MODEL="<ai_model>"
 ```
 
+
 Change in index.html file
 
 ```js
