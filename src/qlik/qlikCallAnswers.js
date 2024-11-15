@@ -6,6 +6,8 @@ const tenantUrl = process.env.TENANT_URL;
 const AssistantId = process.env.ASSISTANT_ID;
 const apiQsKey = process.env.API_QS_KEY
 
+const request = require('request');
+
 //=====  Generative call  ===============================================================
 
 export default class qlikCallAnwsers {
@@ -14,27 +16,24 @@ export default class qlikCallAnwsers {
 
     async generatePrompt(userPrompt) {
 
-        console.log('The prompt of the user : '+userPrompt);
-
         // send the promt
         try {
-            const response = await fetch(`${tenantUrl}/api/v1/assistants/${AssistantId}`, {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${apiQsKey}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    messages: [{ content: userPrompt }]
-                })
+            console.log(userPrompt);
+            var options = {
+                'method': 'POST',
+                'url': `${tenantUrl}/api/v1/assistants/${AssistantId}/threads`,
+                'headers': {
+                  'Authorization': `Bearer ${apiQsKey}`,
+                  'Content-Type': 'application/json'
+                }
+            };
+
+            request(options, function (error, res) {
+                console.log(res);
+                if (error) throw new Error(error);
+                    console.log(res.body);
             });
 
-            const data = await response.json();
-            console.log(data);
-            const assistantResponse = data.choices[0].message.content;
-            console.log(assistantResponse);
-
-            return { assistantResponse }
         } catch (error) {
             console.error(`Erreur lors de l'appel à l'API Qlik Answers: ${error.message}`);
             response.status(500).json({ error: 'Prompt generation Error.' });

@@ -22,7 +22,7 @@ sendPrompt.addEventListener("click", async function () {
     document.getElementById('loaderAI').style.display = "block";
 
     try{
-        const r = await qlikInstanceAnwsers.generatePrompt({"message": userPrompt});
+        const r = await qlikInstanceAnwsers.generatePrompt(userPrompt);
         console.log(r)
 
         const response = await qlikInstance.generatePrompt(userPrompt);

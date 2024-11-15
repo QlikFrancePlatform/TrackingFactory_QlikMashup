@@ -2,11 +2,11 @@
 import dotenv from 'dotenv';
 dotenv.config({ path: '../../.env' });
 
-const request = require('request');
-
 const tenantUrl = process.env.TENANT_URL;
 const factoryAutomationId = process.env.FACTORY_AUTOMATION_ID;
 const factoryAutomationToken = process.env.FACTORY_AUTOMATION_TOKEN;
+
+const request = require('request');
 
   export default class qlikCallAutomation {
 
