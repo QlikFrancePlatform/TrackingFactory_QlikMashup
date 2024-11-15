@@ -12,6 +12,7 @@ const factoryAutomationKey = process.env.FACTORY_AUTOMATION_KEY;
 const aiKey = process.env.AI_KEY;
 const aiUri = process.env.AI_URI;
 const aiModel = process.env.AI_MODEL;
+const apiQsKey = process.env.API_QS_KEY
 
 module.exports = {
   plugins: {
@@ -57,6 +58,9 @@ module.exports = {
         },
         "AI_MODEL": () => {
           return aiModel;
+        },
+        "API_QS_KEY": () => {
+          return apiQsKey;
         }
       }
     }

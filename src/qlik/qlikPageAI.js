@@ -1,6 +1,8 @@
 import qlikCallAI from './qlikCallAI.js';
+import qlikCallAnwsers from './qlikCallAnswers.js';
 
 const qlikInstance = new qlikCallAI();
+const qlikInstanceAnwsers = new qlikCallAnwsers();
 
 (async () => {
 
@@ -20,6 +22,9 @@ sendPrompt.addEventListener("click", async function () {
     document.getElementById('loaderAI').style.display = "block";
 
     try{
+        const r = await qlikInstanceAnwsers.generatePrompt({"message": userPrompt});
+        console.log(r)
+
         const response = await qlikInstance.generatePrompt(userPrompt);
 
         // Insert qlik-embed tags
