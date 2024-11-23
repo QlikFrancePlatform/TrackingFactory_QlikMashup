@@ -1,61 +1,57 @@
 import qlikCallAI from './qlikCallAI.js';
-import qlikCallAnwsers from './qlikCallAnswers.js';
 
 const qlikInstance = new qlikCallAI();
-const qlikInstanceAnwsers = new qlikCallAnwsers();
 
 (async () => {
 
   await new Promise(r => setTimeout(r, 2000));
 
+    // ==============RealPrompt=========================
+    //Ask for a content generation
+    let sendPrompt = document.getElementById('generativeAISubmit');
+    console.log(sendPrompt)
 
+    sendPrompt.addEventListener("click", async function () {
+        console.log('ask for generation');
+        //retrieve values
+        let userPrompt= document.getElementById('generativeAIPrompt').value;
+        document.getElementById('loaderAI').style.display = "block";
 
-// ==============RealPrompt=========================
-//Ask for a content generation
-let sendPrompt = document.getElementById('generativeAISubmit');
-console.log(sendPrompt)
+        try{
+            // const r = await qlikInstance.generatePromptAnswers(userPrompt);
+            // console.log(r)
 
-sendPrompt.addEventListener("click", async function () {
-    console.log('ask for generation');
-    //retrieve values
-    let userPrompt= document.getElementById('generativeAIPrompt').value;
-    document.getElementById('loaderAI').style.display = "block";
+            const response = await qlikInstance.generatePrompt(userPrompt);
 
-    try{
-        const r = await qlikInstanceAnwsers.generatePrompt(userPrompt);
-        console.log(r)
+            // Insert qlik-embed tags
+            const embedsContainer = document.getElementById('generativeAIContainerId');
+            embedsContainer.innerHTML = ''; // Clear previous results
 
-        const response = await qlikInstance.generatePrompt(userPrompt);
+            colClass = 'col'
+            document.getElementById('loaderAI').style.display = "none";
+            response.embedTags.forEach((tag, index) => {
+                const divElement = document.createElement('div');
+                divElement.classList.add(colClass);
+                const divEmbed = document.createElement('div');
+                divEmbed.classList.add('qlik-embed-generate');
+                divEmbed.classList.add('p-2');
+                divEmbed.innerHTML = tag;
+                const qe = divEmbed.getElementsByTagName('qlik-embed')[0];
+                qe.setAttribute('id','qe'+index);
+                divElement.appendChild(divEmbed);
+                embedsContainer.appendChild(divElement);
+            });
 
-        // Insert qlik-embed tags
-        const embedsContainer = document.getElementById('generativeAIContainerId');
-        embedsContainer.innerHTML = ''; // Clear previous results
-
-        colClass = 'col'
-        document.getElementById('loaderAI').style.display = "none";
-        response.embedTags.forEach((tag, index) => {
             const divElement = document.createElement('div');
             divElement.classList.add(colClass);
             const divEmbed = document.createElement('div');
-            divEmbed.classList.add('qlik-embed-generate');
-            divEmbed.classList.add('p-2');
-            divEmbed.innerHTML = tag;
-            const qe = divEmbed.getElementsByTagName('qlik-embed')[0];
-            qe.setAttribute('id','qe'+index);
+            divEmbed.innerHTML = marked.parse(response.explanatoryText);
             divElement.appendChild(divEmbed);
             embedsContainer.appendChild(divElement);
-        });
 
-        const divElement = document.createElement('div');
-        divElement.classList.add(colClass);
-        const divEmbed = document.createElement('div');
-        divEmbed.innerHTML = marked.parse(response.explanatoryText);
-        divElement.appendChild(divEmbed);
-        embedsContainer.appendChild(divElement);
-
-    } catch (error) {
-          console.error('Error:', error);
-    }
-  });
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    });
 
 })();
