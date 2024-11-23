@@ -1,8 +1,11 @@
 import picassojs from "picasso.js";
 
-(async () => {
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
-    await new Promise(r => setTimeout(r, 2000));
+(async () => {
+    await delay(2000);
 
     // Function to set up KPI
     async function setupKpi(kpiId, displayId) {

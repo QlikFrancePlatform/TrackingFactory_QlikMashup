@@ -11,6 +11,9 @@ const AiUri = process.env.AI_URI;
 const AiModel = process.env.AI_MODEL;
 const apiQsKey = process.env.API_QS_KEY;
 
+const threadName = 'conversation from API to bot';
+const threadId = '';
+
 //=====  Generative call  ===============================================================
 
 export default class qlikCallAI {
@@ -23,19 +26,63 @@ export default class qlikCallAI {
         try {
             console.log(userPrompt);
 
-            const credentials = btoa(`${authClientId}:${authClientSecret}`);
-
-            const response = await fetch(`${tenantUrl}/api/v1/assistants/${AssistantId}/threads`, {
+            // const credentials = btoa(`${authClientId}:${authClientSecret}`);
+            fetch(`${tenantUrl}/api/v1/assistants/${AssistantId}/threads`, {
                 method: 'POST',
                 headers: {
-                  'Authorization': `Basic ${credentials}`,
-                  'Content-Type': 'application/json'
+                    'Authorization': `Bearer ${apiQsKey}`,
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ grant_type: 'client_credentials' })
+                body: JSON.stringify({
+                    name: threadName
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Thread created:', data);
+                //let threadId = data.id; // Save threadId for future use
+            })
+            .catch(error => {
+                console.error('Error:', error);
             });
 
-            const data = await response.json();
-            console.log(data);
+            fetch(`${tenantUrl}/api/v1/assistants/${AssistantId}/threads?filter=name eq "${threadName}"`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${apiQsKey}`
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Thread details:', data);
+                let threadId = data.data[0].id; // Use threadId from the response
+                console.log(threadId);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
+            fetch(`${tenantUrl}/api/v1/assistants/${AssistantId}/threads/${threadId}/actions/invoke`, {
+                method: 'POST',
+                headers: {
+                        'Authorization': `Bearer ${apiQsKey}`,
+                        'Content-Type': 'application/json'
+                        },
+                body: JSON.stringify({
+                    input: {
+                        prompt: userPrompt,
+                        promptType: 'oneshot',
+                        includeText: true
+                    }
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                        console.log('Answer:', data.output);
+            })
+            .catch(error => {
+                        console.error('Error:', error);
+            });
 
         } catch (error) {
             console.error(`Erreur lors de l'appel à l'API Qlik Answers: ${error.message}`);

@@ -212,14 +212,22 @@
                         <img src="img/Qlik Logo R - 2 Color Positive RGB.png"  width="150px" height="63px" >
                     </diw>
                 </div>
+
                 <div class="d-none">
-                <qlik-embed
-                    ui="ai/assistant"
-                    assistant-id="{{ ASSISTANT_ID }}"
-                    appearance="qlik-light"
-                    id="asDataAI"
-                    >
-                </qlik-embed>
+                    <qlik-embed
+                        ui="ai/assistant"
+                        assistant-id="{{ ASSISTANT_ID }}"
+                        appearance="qlik-light"
+                        id="asDataAI"
+                        >
+                    </qlik-embed>
+                </div>
+
+                <span id="loaderAnswers" class="spinner-border mt-2" role="status" style="display: none;">
+                    <span class="visually-hidden">Loading...</span>
+                </span>
+                <div class="row">
+                    <div id="generatiAnswersContainerId"></div>
                 </div>
             </div>
             <div class="col p-3 qlik-embed-classic border-start">
@@ -236,7 +244,7 @@
                     </diw>
                 </div>
                 <span id="loaderAI" class="spinner-border" role="status" style="display: none;">
-                <span class="visually-hidden">Loading...</span>
+                    <span class="visually-hidden">Loading...</span>
                 </span>
                 <div class="row">
                 <div id="generativeAIContainerId"></div>

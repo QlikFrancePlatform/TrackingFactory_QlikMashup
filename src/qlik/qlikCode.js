@@ -1,6 +1,9 @@
-(async () => {
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
-    await new Promise(r => setTimeout(r, 2000));
+(async () => {
+    await delay(2000);
 
      /** Access to the App Model **/
      const embeddedObject = document.getElementById("onthefly");

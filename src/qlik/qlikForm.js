@@ -2,8 +2,12 @@ import qlikCallAutomation from './qlikAutomation.js';
 
 const qlikAutomation = new qlikCallAutomation();
 
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 (async () => {
-  await new Promise(r => setTimeout(r, 2000));
+    await delay(2000);
 
     /** Access to the App Model **/
     const embeddedObject = document.getElementById("qe1");
