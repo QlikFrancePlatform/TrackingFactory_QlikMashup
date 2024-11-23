@@ -1,0 +1,13 @@
+{
+  "plugins": {
+    "posthtml-modules": {
+      "root": "src",
+      "input": "*.html",
+      "output": "dist"
+    },
+    "posthtml-expressions": {
+      "locals": {
+      }
+    }
+  }
+}
